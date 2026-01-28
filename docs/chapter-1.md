@@ -371,6 +371,43 @@ A：不是，可以通过自然语言完成文件管理、网页自动化、数�
 **Q：学习难度大吗？**
 A：不需要编程知识，会用自然语言交流就能使用，非技术人员也能快速上手
 
+**Q：如何切换使用不同的模型？**
+A：可通过修改 `~/.claude/settings.json` 配置文件来切换模型。例如切换到 GLM 模型：
+
+```json
+{
+  "env": {
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "glm-4.5-air",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "glm-4.7",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "glm-4.7"
+  }
+}
+```
+
+修改后重启 Claude Code，使用 `/status` 命令确认模型状态。
+
+**Q：手动修改配置后不生效怎么办？**
+A：按以下步骤排查：
+1. 关闭所有 Claude Code 窗口，重新打开新终端启动
+2. 检查 JSON 格式是否正确（无多余逗号、变量名拼写正确）
+3. 如问题仍存在，删除配置文件后重新配置
+
+**Q：如何升级 Claude Code 到最新版本？**
+A：使用以下命令：
+
+```bash
+# 检查当前版本
+claude --version
+
+# 升级到最新版本
+claude update
+```
+
+推荐使用 Claude Code 2.0.14 或更高版本（智谱AI已验证兼容）。
+
+**Q：如何配置视觉和搜索 MCP 服务器？**
+A：参考智谱AI官方文档配置视觉MCP服务器、搜索MCP服务器和网页读取MCP服务器，配置完成后即可在 Claude Code 中使用。
+
 ### 下一步
 
 - **程序员**：重点学习第二章Skills和第三章程序员最佳实践

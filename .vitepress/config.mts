@@ -9,7 +9,7 @@ export default defineConfig({
     nav: [
       { text: '首页', link: '/' },
       { text: '培训大纲', link: '/outline' },
-      { text: 'GitHub', link: 'https://github.com/yourusername/claudecode-docs' }
+      { text: 'GitHub', link: 'https://github.com/ren8179/claudecode-docs' }
     ],
 
     sidebar: [
@@ -52,7 +52,7 @@ export default defineConfig({
     ],
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/yourusername/claudecode-docs' }
+      { icon: 'github', link: 'https://github.com/ren8179/claudecode-docs' }
     ],
 
     search: {

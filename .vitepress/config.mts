@@ -3,7 +3,7 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: 'ClaudeCode 培训',
   description: 'ClaudeCode 完整培训文档 - 从入门到精通',
-  base: '/claudecode-docs/',
+  base: '/',
 
   themeConfig: {
     nav: [

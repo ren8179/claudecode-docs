@@ -54,12 +54,46 @@ git push -u origin main
 # 1. 进入项目目录
 cd F:\02Doc\ClaudeCode
 
-# 2. 启动开发服务器
+# 2. 启动开发服务器（仅本机访问）
 npm run docs:dev
 
 # 3. 打开浏览器访问
 # http://localhost:5173
 ```
+
+### 局域网访问（使用 IP 和端口）
+
+如果需要在局域网内其他设备访问，启动时添加 `--host` 参数：
+
+```bash
+# 启动开发服务器，监听所有网络接口
+npm run docs:dev -- --host 0.0.0.0
+```
+
+**访问方式：**
+
+| 设备           | 访问地址              |
+| -------------- | --------------------- |
+| 本机           | http://localhost:5173 |
+| 局域网其他设备 | http://你的IP:5173    |
+
+**获取本机 IP 地址：**
+
+```bash
+# Windows
+ipconfig
+
+# macOS/Linux
+ifconfig或 ip addr
+```
+
+例如：如果你的 IP 是 `192.168.1.100`，局域网内其他设备可访问：
+
+```
+http://192.168.1.100:5173
+```
+
+**注意：** 确保防火墙允许 5173 端口的入站连接。
 
 ## 🔄 更新文档
 
@@ -132,9 +166,10 @@ claudecode-docs/
 ### Q: 部署后 404 错误？
 
 A: 检查以下几点：
+
 1. 仓库必须是 Public
 2. 确认在 Settings → Pages 中选择了 GitHub Actions
-3. 检查 `.vitepress/config.mts` 中的 `base` 配置是否正确
+3. 检查 `docs/.vitepress/config.mts` 中的 `base` 配置是否正确
 
 ### Q: 样式不正确？
 
@@ -143,9 +178,68 @@ A: 清除浏览器缓存或使用无痕模式访问
 ### Q: 更新后没有生效？
 
 A:
+
 1. 检查 GitHub Actions 是否成功运行
 2. 清除浏览器缓存
 3. 等待 1-2 分钟让 CDN 更新
+
+---
+
+## 💡 部署经验总结（踩坑记录）
+
+### 1. 配置文件位置
+
+**❌ 错误做法：** 将配置文件放在根目录 `.vitepress/config.mts`
+
+**✅ 正确做法：** 配置文件必须放在 `docs/.vitepress/config.mts`
+
+VitePress 构建时读取的是 `docs/.vitepress/config.mts`，根目录的配置不会被读取。
+
+### 2. base 路径配置
+
+**❌ 错误配置：** `base: '/'`
+
+**✅ 正确配置：** `base: '/claudecode-docs/'`
+
+部署地址是 `https://username.github.io/claudecode-docs/`，所以 base 必须设置为 `/claudecode-docs/`，否则静态资源（CSS、JS）会 404。
+
+### 3. 文档更新流程
+
+修改文档内容时，需要同时更新：
+
+- `docs/chapter-1.md` - VitePress 构建使用的文件
+- `ClaudeCode_第一章_详细版.md` - 源文件（可选，用于备份）
+
+**推荐流程：**
+
+```bash
+# 1. 编辑 docs/chapter-1.md（直接修改部署用文件）
+# 2. 提交并推送
+git add docs/chapter-1.md
+git commit -m "docs: 更新第一章内容"
+git push
+```
+
+### 4. 忽略构建输出
+
+构建输出目录 `docs/.vitepress/dist/` 不应提交到仓库，已在 `.gitignore` 中配置。
+
+**.gitignore 内容：**
+
+```
+# VitePress build output
+docs/.vitepress/dist/
+docs/.vitepress/cache/
+
+# Dependencies
+node_modules/
+```
+
+### 5. 本地预览注意事项
+
+本地预览时使用 `npm run docs:dev`，访问 `http://localhost:5173`。
+
+**注意：** 本地预览不需要 base 路径前缀，但部署后需要。这是正常现象，VitePress 会自动处理。
 
 ## 📖 更多资源
 

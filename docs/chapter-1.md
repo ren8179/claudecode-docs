@@ -109,6 +109,43 @@ Claude Code支持多种模型配置方式，选择适合你的模型：
 
 #### 配置示例（以智谱GLM为例）
 
+智谱AI官方提供了三种配置方式，**自动化助手（推荐）** 是最简单的配置方式：
+
+##### 方式一：自动化助手 Coding Tool Helper（最推荐）
+
+**Coding Tool Helper** 是智谱AI官方提供的编码工具助手，可以快速将 GLM 编码套餐加载到 Claude Code 中。
+
+**使用方法：**
+
+```bash
+# 在命令行中执行
+npx @z_ai/coding-helper
+```
+
+**功能特点：**
+
+- ✅ 自动完成工具安装
+- ✅ 自动配置 GLM 编码套餐
+- ✅ 自动管理 MCP 服务器
+- ✅ 交互式界面，操作简单
+
+按照界面提示操作即可完成配置，无需手动修改配置文件。
+
+详细说明请参考 [Coding Tool Helper 文档](https://docs.bigmodel.cn/cn/coding-plan/quick-start)。
+
+---
+
+##### 方式二：自动化脚本（仅支持 macOS/Linux）
+
+```bash
+# 下载并运行自动配置脚本
+curl -O "https://cdn.bigmodel.cn/install/claude_code_env.sh" && bash ./claude_code_env.sh
+```
+
+---
+
+##### 方式三：手动配置环境变量
+
 **Windows：**
 
 ```bash
@@ -141,6 +178,61 @@ source ~/.bashrc
 
 - 配置环境变量后需要重启终端或运行 `source ~/.bashrc` 使配置生效
 - API密钥需要从对应平台获取：[智谱AI](https://open.bigmodel.cn/) / [Kimi](https://platform.moonshot.cn/) / [通义千问](https://bailian.console.aliyun.com/)
+
+#### 方式四：通过配置文件设置模型
+
+智谱AI官方推荐通过修改 `~/.claude/settings.json` 文件来配置GLM模型：
+
+**步骤 1：创建或编辑配置文件**
+
+```bash
+# 创建配置目录（如果不存在）
+mkdir -p ~/.claude
+
+# 编辑配置文件
+# macOS/Linux: 使用 vim/nano 等编辑器
+# Windows: 使用记事本或 VS Code
+vim ~/.claude/settings.json
+```
+
+**步骤 2：添加以下配置内容**
+
+```json
+{
+  "env": {
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "glm-4.5-air",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "glm-4.7",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "glm-4.7"
+  }
+}
+```
+
+**步骤 3：验证配置**
+
+```bash
+# 关闭所有 Claude Code 窗口，重新打开一个新的命令行窗口
+# 启动 Claude Code
+claude
+
+# 在 Claude Code 中输入以下命令确认模型状态
+/status
+```
+
+**配置说明：**
+
+| 配置项 | 说明 | 推荐值 |
+|--------|------|--------|
+| `ANTHROPIC_DEFAULT_HAIKU_MODEL` | 快速响应模型 | `glm-4.5-air` |
+| `ANTHROPIC_DEFAULT_SONNET_MODEL` | 均衡性能模型 | `glm-4.7` |
+| `ANTHROPIC_DEFAULT_OPUS_MODEL` | 最强性能模型 | `glm-4.7` |
+
+**常见配置问题排查：**
+
+| 问题 | 解决方案 |
+|------|----------|
+| 配置不生效 | 关闭所有 Claude Code 窗口，重新打开新终端 |
+| JSON 格式错误 | 使用在线 JSON 校验工具检查格式 |
+| 变量名错误 | 确认变量名拼写正确，不要多逗号或少逗号 |
 
 ### 启动Claude Code
 
